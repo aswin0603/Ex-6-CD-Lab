@@ -57,6 +57,10 @@ int main()
 }
 ```
 # OUTPUT
+### a.txt:
+<img width="303" height="181" alt="image" src="https://github.com/user-attachments/assets/e5b67524-ac8a-4a7d-aaa4-2ae3473d6bc0" />
+
+### exp06.exe:
 <img width="595" height="218" alt="image" src="https://github.com/user-attachments/assets/3d31c4b3-b520-45ab-b6f4-8c7ad668f2cb" />
 
 # Result
