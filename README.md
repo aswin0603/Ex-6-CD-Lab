@@ -2,7 +2,7 @@
 IMPLEMENTATION OF THE BACK END OF THE COMPILER 
 
 # Register Number : 212224110007
-# Date : 10-05-2026
+# Date : 22-05-2026
 # Aim :
 To write a program to implement the back end of the compiler.
 # ALGORITHM
@@ -13,57 +13,78 @@ To write a program to implement the back end of the compiler.
 5. Target code for the given statement is produced.
 6. Stop the program.
 # PROGRAM:
+### exp6_0007.c
 ```c
 #include <stdio.h>
-#include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-int main()
-{
-    int i = 2, j = 0, k = 2, k1 = 0;
-    char ip[10], kk[10];
+int main() {
+    char line[100], var[10], op1[10], op2[10], res[10], op;
+    char filename[50];
     FILE *fp;
+    int reg = 0;
 
     printf("Enter the filename of the intermediate code: ");
-    scanf("%s", kk);
+    scanf("%s", filename);
 
-    fp = fopen(kk, "r");
-    if (fp == NULL)
-    {
-        printf("\nError in opening the file\n");
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Error: Could not open file.\n");
         return 1;
     }
-    printf("\nStatement\tTarget Code\n\n");
-    while (fscanf(fp, "%s", ip) != EOF)
-    {
-        printf("%s\tMOV %c,R%d SUB ", ip, ip[i + k], j);
 
-        if (ip[i + 1] == '+')
-            printf("ADD ");
-        else
-            printf("SUB ");
+    printf("\nIntermediate Code:\n\n");
 
-        if (islower(ip[i]))
-            printf("%c,R%d\n", ip[i + k1], j);
-        else
-            printf("%c,%c\n", ip[i], ip[i + 2]);
+    while (fgets(line, sizeof(line), fp)) {
+        printf("\t\t%s", line);
+    }
 
-        j++;
-        k1 = 2;
-        k = 0;
+    rewind(fp);
+
+    printf("\n\n\tStatement\t\tTarget Code\n\n");
+
+    while (fgets(line, sizeof(line), fp)) {
+        // Remove newline if exists
+        line[strcspn(line, "\n")] = 0;
+
+        // Example format: t1 = a + b
+        if (sscanf(line, "%s = %s %c %s", res, op1, &op, op2) == 4) {
+            printf("\t%s\t\tMOV %s, R%d\n", line, op2, reg);
+            printf("\t\t\t\t");
+
+            if (op == '+')
+                printf("ADD ");
+            else if (op == '-')
+                printf("SUB ");
+            else if (op == '*')
+                printf("MUL ");
+            else if (op == '/')
+                printf("DIV ");
+            else
+                printf("OP? ");
+
+            printf("%s, R%d\n\n", op1, reg);
+            reg++;
+        }
     }
 
     fclose(fp);
-
     return 0;
 }
-```
-# OUTPUT
-### a.txt:
-<img width="303" height="181" alt="image" src="https://github.com/user-attachments/assets/e5b67524-ac8a-4a7d-aaa4-2ae3473d6bc0" />
 
-### exp06.exe:
-<img width="595" height="218" alt="image" src="https://github.com/user-attachments/assets/3d31c4b3-b520-45ab-b6f4-8c7ad668f2cb" />
+```
+
+### exp6i_0007.txt:
+```txt
+t1 = a + b
+t2 = t1 - c
+```
+
+# OUTPUT
+<img width="853" height="411" alt="image" src="https://github.com/user-attachments/assets/128aec01-4325-4d7c-a92a-59c000b5ee1a" />
+
 
 # Result
 The back end of the compiler is implemented successfully, and the output is verified.
